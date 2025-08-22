@@ -139,7 +139,7 @@ interface  Vlan-interface  1
 ip address 192.168.5.254 24
 _______________________  DEFAULT ROUTE ILE CIKIS SAGLAMA __________________________________
 ip route-static 0.0.0.0 0.0.0.0  192.168.5.1
-///////////  192.168.5.1 Modem/Router Adresi IP'si ise  ///////////////////////////
+!!!!!!!!  192.168.5.1 Modem/Router Adresi IP'si ise  !!!!!!!!!!!!!!!!
 _________________________ _________________________ _______________________________________
 _____________________________DHCP SERVER __________________________________________________
 !!!!!!!! DHCP SERVER GEREKSINIMI VARSA DHCP HAVUZU OLUSTURMA !!!!!!!!
@@ -185,9 +185,9 @@ __________________________KONFIGURASYONU SWITCH  FLASH A YEDEKLEME______________
 sys
 exit 
 mkdir archive
-syS
+sys
 archive configuration location flash:/archive filename-prefix conf  !/SFTP SEÇENEĞi VEYA
-archive configuration interval 1440
+archive configuration interval 1440 / günde bir config yedeklemesi 
 archive configuration max 10
 exit 
 archive configuration
@@ -203,12 +203,19 @@ copy test.cfg ftp://user:private@1.1.1.1/testbackup.cfg
 copy tftp://1.1.1.1/test.cfg testbackup.cfg
 copy test.cfg tftp://1.1.1.1/testbackup.cfg
 copy flash:/test/1.cfg usba0:/testbackup/1backup.cfg
+
+
 _________________________FOLDER OPERASYON ____________________________________________
 mkdir test
 more startup.cfg
 mount usba0:
 format usba0:
 dir usba0:
+__________________________GERI DONUSUM KUTUSUNU SILME ________________________________
+!Silinen Dosyalar Geri Dönüşüm kutusundan kalici olarak silinir.
+reset recycle-bin
+
+
 _____________________________________________________________________________________
 _________________________ AYARLARI GORUNTULEME_______________________________________ 
 display current-configuration diff / FARKLILIKLARI  
@@ -221,7 +228,7 @@ _________________________ FABRIKA AYARLARINA DONDURME___________________________
 #reset saved-configuration
 The saved configuration file will be erased. Are you sure? [Y/N]:y
 #reboot
-!Save save current configuration? sorusuna NO (N) reboot Sorusuna YES (Y)
+!Save save current configuration? sorusuna > NO (N) reboot Sorusuna > YES (Y)
 !
 _________________________ AYARLARI KAYIT ETME	_____________________________________ 
 #save 
@@ -247,8 +254,13 @@ Overwrite the existing files? [Y/N]:y
 !display version-update-record 
 dir /all /all-filesystems
 ______________________________________________________________________________________
+__________________________HOT PATCH YUKLEME___________________________________________
+!install activate patch flash:/S6861-CMW710-SYSTEM-R2612P06H11.bin slot 1
+!install activate patch flash:/S6861-CMW710-SYSTEM-R2612P06H11.bin slot 2
+!install commit
+!display install active
 
-____________________________________________________  
+
 ________________________#H3C LINK AGGREGATION CONFIGURATION___________________________
 interface Bridge-Aggregation1
 description LAGG-TO-SPINE
@@ -299,22 +311,23 @@ interface  vlan3001
 packet-filter 3001 inbound
 _________________________ ACL-CLASSIFER-BEHAVIOR-POLICY-QOS-KURALI____________________
 #
-!ACL OLUŞTURULMASI
+!ACL OLUŞTURULMASI - 1. adım
 acl advanced 3000
 rule permit icmp source 192.168.131.2  0 destination 192.168.131.1  0
 rule permit icmp source 192.168.131.1  0  destination 192.168.131.2  0
 #
-!CLASSIFIER OLUSTURULMASI
+!CLASSIFIER OLUSTURULMASI - 2. adım 
 traffic classifier 1 operator and
 if-match acl 3000
 #
-!BEHAVIOR OLUSTURULMASI
+!BEHAVIOR OLUSTURULMASI - 3.adım 
 traffic behavior 1
 accounting packet   !!packet sayma işlemi
+!POLICY ALTINDA  CLASSIFER VE BEHAVIOR BIRLESTIRILIR. 4.adım 
 qos policy 1
 classifier 1 behavior 1
 #
-!POLICY INTERFACE ESLESTIRILMESI
+!POLICY INTERFACE ESLESTIRILMESI  5.adım
 interface HG1/0/11
 qos apply policy 1 inbound
 qos apply policy 1 outbound
