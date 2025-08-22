@@ -133,13 +133,17 @@ interface GigabitEthernet1/0/8
 port link-mode bridge
 port access vlan 5
 poe enable 
-_________________________ _________________________ _______________________________________
+_________________________ ___________________________________ _____________________________
 _________________________  SWITCHE MANAGE ERISIM ADRESI VERME _____________________________
 interface  Vlan-interface  1
 ip address 192.168.5.254 24
 _______________________  DEFAULT ROUTE ILE CIKIS SAGLAMA __________________________________
 ip route-static 0.0.0.0 0.0.0.0  192.168.5.1
 !!!!!!!!  192.168.5.1 Modem/Router Adresi IP'si ise  !!!!!!!!!!!!!!!!
+
+________________________  STATIC ROUTE ____________________________________________________
+ ip route-static 192.168.40.0 24 192.168.5.2 description ornek-erisim-rota
+!!!!!!!  192.168.40.0 ağına ulaşmak için 192.168.5.1 IP'sine git
 _________________________ _________________________ _______________________________________
 _____________________________DHCP SERVER __________________________________________________
 !!!!!!!! DHCP SERVER GEREKSINIMI VARSA DHCP HAVUZU OLUSTURMA !!!!!!!!
