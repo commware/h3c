@@ -257,6 +257,11 @@ Overwrite the existing files? [Y/N]:y
 !display version 
 !display version-update-record 
 dir /all /all-filesystems
+
+__________________________UPGRADE SOFTWARE FROM BIN FILES _________________________________
+<H3C>boot-loader file boot flash:/s5570s_ei-cmw710-boot-r1115.bin system flash:/
+s5570s_ei-cmw710-system-r1115.bin all  main
+
 ______________________________________________________________________________________
 __________________________HOT PATCH YUKLEME___________________________________________
 !install activate patch flash:/S6861-CMW710-SYSTEM-R2612P06H11.bin slot 1
