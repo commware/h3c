@@ -92,8 +92,8 @@ _________________________ _________________________ ____________________________
 _________________________ ALIAS KISAYOL EKLEME____________________________________________
 alias reload reboot f
 alias wr save f
-alias dip  "dis ip int brief"
-alias dib  "dis  int brief"
+alias dip  display ip int brief
+alias dib  display int brief
 wr
 !
 !dislay alias 
