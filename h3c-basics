@@ -92,9 +92,20 @@ _________________________ _________________________ ____________________________
 _________________________ ALIAS KISAYOL EKLEME____________________________________________
 alias reload reboot f
 alias wr save f
-alias dip  dis ip int brief
+alias dip  "dis ip int brief"
+alias dib  "dis  int brief"
 wr
 !
+!dislay alias 
+!display history 
+_________________________HISTORY & REPEAT KOMUTU____________________________________________________
+display history 
+!Son girilen komutlar listesini tutar
+!
+display cpu 
+repeat 3 count 5 delay 1 
+!Son girilen komutu tekrarlar Örnek : Display CPU komutunu tekrarlıyor
+
 _________________________ _________________________ _______________________________________ 
 _________________________ SAAT MANUEL AYARLAMA ____________________________________________ 
 clock protocol none
@@ -190,7 +201,7 @@ _________________________ PORT DEFAULT A CEKME__________________________________
 interface range  GigabitEthernet1/0/1 to GigabitEthernet1/0/8 
 default 
 ! dikkat default yazdığınızda ! Port altında yazılan tüm konfigler sıfırlanır	!
---
+!
 __________________________KONFIGURASYONU SWITCH  FLASH A YEDEKLEME___________________
 sys
 exit 
@@ -207,6 +218,7 @@ ________________________RESTORE CONFIG FROM TFTP________________________________
 restore startup-configuration  from  192.168.5.155 conf.cfg
 reboot force 
 TFTP üzerindeki dosya(conf.cfg) çağrılır ve switch/router bu dosya ile boot eder
+
 _________________________KONFIGURASYON YEDEKLEME_____________________________________
 copy ftp://user:private@1.1.1.1/test.cfg testbackup.cfg
 copy test.cfg ftp://user:private@1.1.1.1/testbackup.cfg
@@ -214,18 +226,23 @@ copy tftp://1.1.1.1/test.cfg testbackup.cfg
 copy test.cfg tftp://1.1.1.1/testbackup.cfg
 copy flash:/test/1.cfg usba0:/testbackup/1backup.cfg
 
-
 _________________________FOLDER OPERASYON ____________________________________________
 mkdir test
+cd test 
+pwd 
 more startup.cfg
 mount usba0:
+umount usba0:
 format usba0:
 dir usba0:
+! delete /unreserved  startup.cfg    /acilis dosyasini siler 
+! move startup.cfg startup.cfg.yedek
+! copy startup.cfg startup.cfg.yedek
+! rename startup.cfg startup.cfg.yedek
+
 __________________________GERI DONUSUM KUTUSUNU SILME ________________________________
 !Silinen Dosyalar Geri Dönüşüm kutusundan kalici olarak silinir.
 reset recycle-bin
-
-
 _____________________________________________________________________________________
 _________________________ AYARLARI GORUNTULEME_______________________________________ 
 display current-configuration diff / FARKLILIKLARI  
