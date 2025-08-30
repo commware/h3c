@@ -121,18 +121,24 @@ port trunk permit vlan all
 _________________________ _______ACCESS POINT/IP PHONE PORT AYARI __________ _____________
 interface gig1/0/8
 port link-type hybrid
-undo port hybrid vlan 3
+port hybrid pvid vlan 5
+port hybrid vlan 5 untagged
 port hybrid vlan 24 tagged
-port hybrid vlan 3 untagged
-/AP üzerinden yeni bir ssid için yeni bir tag ekleyebilirisiniz örn. "port hybrid vlan 2 4 24  tagged"
+!AP üzerinden yeni bir ssid için yeni bir tag ekleyebilirisiniz örn. "port hybrid vlan 2 4 24  tagged"
+!VLAN 5  AP VE IP Phone MNG VLAN 
 _________________________ KULLANICIYI VLAN A ALMA ________________________________________
 VLAN 5 
 NAME VLAN5-MNG 
-!! 
+!
 interface GigabitEthernet1/0/8
 port link-mode bridge
 port access vlan 5
 poe enable 
+
+! display vlan 
+! display vlan  all 
+! display vlan brief
+! dis mac-address vlan  5
 _________________________ ___________________________________ _____________________________
 _________________________  SWITCHE MANAGE ERISIM ADRESI VERME _____________________________
 interface  Vlan-interface  1
@@ -271,25 +277,35 @@ __________________________HOT PATCH YUKLEME_____________________________________
 
 
 ________________________#H3C LINK AGGREGATION CONFIGURATION___________________________
+!/PORT AGG GROUP 1 OLUSTURULMASI (Adım 1)
+
 interface Bridge-Aggregation1
 description LAGG-TO-SPINE
 port link-type trunk
-!undo port trunk permit vlan 1
-port trunk permit vlan 5 101
-port trunk pvid vlan 101
-link-aggregation mode dynamic
- #
+port trunk permit vlan all
+link-aggregation mode static 
+!
+!link-aggregation mode dynamic / Static veya Dynamic mode
+!
+!/ARABIRIMLERIN ESLESTIRILMESI (Adım 2)
+!
 interface Gigabitethernet 1/0/1
- port link-aggregation group 1
-#
+port link-aggregation group 1
+!
 interface Gigabitethernet 1/0/2
- port link-aggregation group 1
- veya !port link-aggregation group 1 force
-#
+port link-aggregation group 1
+!
+!veya !port link-aggregation group 1 force
+!
+!/ HATIRLATMA 
 !konfigurasyon oncesi "default" komutu ile  ilgi arabirimleri varsayilan ayara cekiniz.örnek:
 !interface Gigabitethernet 1/0/1
 !default
 !exit
+!display link-aggregation summary
+!display link-aggregation load-sharing mode
+!interface route-aggregation 1  !/Layer3  Link Aggregation Olusturulması
+
 _______________________________________________________________________________________
 _________________________ LOG-SERVER-LOG-GONDERME______________________________________
 logging enable
