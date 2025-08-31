@@ -1,9 +1,9 @@
 !H3C ENTERPRISE BASIC CONFIGS AND COMMANDS 
-!_________________________ _________________________ ________________________________ 
+!_________________________ _________________________ _______________________________
 sys
 undo copyright-info enable
-!_________________________ _________________________ ________________________________
-!_________________________ KULLANICI EKLEME AYARI____________________________________ 
+!_________________________ _________________________ _______________________________
+!_________________________KULLANICI EKLEME AYARI____________________________________ 
 system-view
 password-control length 9
 undo password-control change-password  first-login enable
@@ -12,16 +12,16 @@ password simple Password1
 service-type telnet http https ssh terminal
 authorization-attribute user-role network-admin
 quit
-!_________________________ _________________________ ________________________________ 
+!_________________________ _________________________ _______________________________ 
 !display local-user
 !display password-control blacklist
 !display  password-control 
 !display  configuration sessions 
 !reset password-control blacklist
 !reset password-control  history-record
-_______________________ _________________________ _________________________________ 
-________________ _________________________ _________________________
-!_________________________  VIRTUAL TERMINAL SSH  TELNET ICIN ONEMLI_________________ 
+_______________________ _________________________ __________________________________
+!_________________________ VIRTUAL TERMINAL SSH  TELNET ICIN ONEMLI_________________ 
+________________ _________________________ _________________________________________
 line vty 0 4
 idle-timeout 35000
 authentication-mode scheme
@@ -98,7 +98,7 @@ wr
 !
 !dislay alias 
 !display history 
-_________________________HISTORY & REPEAT KOMUTU____________________________________________________
+__________________________HISTORY & REPEAT KOMUTU____________________________________________________
 display history 
 !Son girilen komutlar listesini tutar
 !
@@ -129,7 +129,7 @@ interface  GigabitEthernet 1/0/24
 port link-mode bridge
 port link-type trunk
 port trunk permit vlan all
-_________________________ _______ACCESS POINT/IP PHONE PORT AYARI __________ _____________
+__________________________ACCESS POINT/IP PHONE PORT AYARI __________ _____________
 interface gig1/0/8
 port link-type hybrid
 port hybrid pvid vlan 5
@@ -137,7 +137,7 @@ port hybrid vlan 5 untagged
 port hybrid vlan 24 tagged
 !AP üzerinden yeni bir ssid için yeni bir tag ekleyebilirisiniz örn. "port hybrid vlan 2 4 24  tagged"
 !VLAN 5  AP VE IP Phone MNG VLAN 
-_________________________ KULLANICIYI VLAN A ALMA ________________________________________
+___________________________KULLANICIYI VLAN A ALMA ________________________________________
 VLAN 5 
 NAME VLAN5-MNG 
 !
@@ -162,7 +162,7 @@ ________________________  STATIC ROUTE _________________________________________
  ip route-static 192.168.40.0 24 192.168.5.1 description ornek-erisim-rota
 !!!!!!!  192.168.40.0 ağına ulaşmak için 192.168.5.1 IP'sine git
 _________________________ _________________________ _______________________________________
-_____________________________DHCP SERVER __________________________________________________
+___________________________DHCP SERVER __________________________________________________
 !!!!!!!! DHCP SERVER GEREKSINIMI VARSA DHCP HAVUZU OLUSTURMA !!!!!!!!
 
 dhcp enable
@@ -174,7 +174,7 @@ dns-list 208.67.222.222 8.8.8.8
 _________________________ _________________________________________________________________
 interface  vlan-interface 5
 dhcp select server 
-_________________________ DHCP_DISPLAY_KOMUTLARI___________________________________________
+___________________________DHCP_DISPLAY_KOMUTLARI___________________________________________
 !dis dhcp  server pool
 !dis dhcp server ip-in-use
 !reset dhcp server conflict { all | ip ip-address }
@@ -193,14 +193,21 @@ dhcp relay server-address 10.1.1.1 ( DHCP SERVER ADDRESI )
 !display dhcp relay statistics
 !display dhcp relay client-information 
 
-_________________________ IP CAMERA/PHONE/AP POE ACMA________________________________
+_________________________IP CAMERA/PHONE/AP POE ACMA________________________________
 interface range  GigabitEthernet1/0/1 to interface GigabitEthernet1/0/24 _
 poe enable 
  
-_________________________ PORT DEFAULT A CEKME_______________________________________ 
+_________________________PORT DEFAULT A CEKME_______________________________________ 
 interface range  GigabitEthernet1/0/1 to GigabitEthernet1/0/8 
 default 
 ! dikkat default yazdığınızda ! Port altında yazılan tüm konfigler sıfırlanır	!
+!
+_________________________KONFIGURASYON YEDEKLEME_____________________________________
+copy ftp://user:private@1.1.1.1/test.cfg testbackup.cfg
+copy test.cfg ftp://user:private@1.1.1.1/testbackup.cfg
+copy tftp://1.1.1.1/test.cfg testbackup.cfg
+copy test.cfg tftp://1.1.1.1/testbackup.cfg
+copy flash:/test/1.cfg usba0:/testbackup/1backup.cfg
 !
 __________________________KONFIGURASYONU SWITCH  FLASH A YEDEKLEME___________________
 sys
@@ -214,17 +221,10 @@ exit
 archive configuration
 Y
 !
-________________________RESTORE CONFIG FROM TFTP_____________________________________
+_________________________RESTORE CONFIG FROM TFTP_____________________________________
 restore startup-configuration  from  192.168.5.155 conf.cfg
 reboot force 
 TFTP üzerindeki dosya(conf.cfg) çağrılır ve switch/router bu dosya ile boot eder
-
-_________________________KONFIGURASYON YEDEKLEME_____________________________________
-copy ftp://user:private@1.1.1.1/test.cfg testbackup.cfg
-copy test.cfg ftp://user:private@1.1.1.1/testbackup.cfg
-copy tftp://1.1.1.1/test.cfg testbackup.cfg
-copy test.cfg tftp://1.1.1.1/testbackup.cfg
-copy flash:/test/1.cfg usba0:/testbackup/1backup.cfg
 
 _________________________FOLDER OPERASYON ____________________________________________
 mkdir test
@@ -247,6 +247,7 @@ ________________________________________________________________________________
 _________________________ AYARLARI GORUNTULEME_______________________________________ 
 display current-configuration diff / FARKLILIKLARI  
 display current-configuration      / VAROLAN 
+
 _________________________ FABRIKA AYARLARINA DONDURME________________________________  
 #reset saved-configuration
 !
@@ -292,8 +293,7 @@ __________________________HOT PATCH YUKLEME_____________________________________
 !install commit
 !display install active
 
-
-________________________#H3C LINK AGGREGATION CONFIGURATION___________________________
+_______________________#H3C LINK AGGREGATION CONFIGURATION___________________________
 !/PORT AGG GROUP 1 OLUSTURULMASI (Adım 1)
 
 interface Bridge-Aggregation1
@@ -453,7 +453,7 @@ display nat static
 display nat statistic
 display nat address-group
 !
-______________________________ LOOPBACK DETECTION ________________________________
+__________________________LOOPBACK DETECTION ________________________________
 !Amacı: HUB takılmasıdurumunda Ağda oluşacak döngüleri engelleme!
 shutdown-interval 300  !! Bu değer ile port  300 sanniye sonra açılacaktır.
 shutdown-interval 0    !! Bu deger sıfır yapılırsa port kapalı kalır
@@ -461,13 +461,13 @@ shutdown-interval 0    !! Bu deger sıfır yapılırsa port kapalı kalır
 loopback-detection global enable vlan 1 to 4094 
 loopback-detection interval-time 30  
 shutdown-interval 0  
-________________________________INTERFACE ALTINDA_________________________________
+__________________________ INTERFACE ALTINDA_________________________________
 bpdu-drop any
 loopback-detection enable vlan 1 to 4094
 loopback-detection action shutdown
 ___________________________________________________________________________________
 ___________________________________________________________________________________
-_________________________ HATA GIDERME & DEBUG & LOG TOPLAMA ______________________
+___________________________HATA GIDERME & DEBUG & LOG TOPLAMA ______________________
 ___________________________________________________________________________________
 #terminal monitor 
 #terminal debug 
@@ -483,7 +483,7 @@ _________________________ SOURCE IP BASED DEBUG AÇMA___________________________
 <R-1>debugging ip icmp acl  2025
 _________________________ _________________________ _______________________________
 ! Örnek ARP VE ICMP  isteklerinin izlenebilmesi 
-_________________________ BILGI VE HATA LOGLARINI INCELEMER________________________
+_________________________BILGI VE HATA LOGLARINI INCELEMER________________________
 #display logbuffer revers
 #logfile klasöründeki dosyaların kayıt edilemesio/kunması
 logfile save  
@@ -515,7 +515,7 @@ display poe device
 display poe pse 
 display power-supply verbose
 display resource-monitor
-_________________________ INTERFACE STATISTICS___________________________________
+_________________________INTERFACE STATISTICS___________________________________
 display counters rate inbound interface
 display counters rate outbound interface
 display counters inbound interface
