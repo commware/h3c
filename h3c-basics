@@ -81,9 +81,12 @@ snmp-agent sys-info location ANKARA
 snmp-agent packet max-size 10240
 
 _________________________ ORTAM DA NMS VARSA SNMP GEREKIR ________________________________
-!netconf soap http enable
-!netconf soap https enable
-!netconf ssh server enable
+_________________________ NETCONF                         ________________________________
+ netconf soap http enable
+ netconf soap https enable
+ netconf ssh server enable
+ restful http enable
+ restful https enable
 _________________________ 
 _________________________ SYSLOG SERVER AYARLARI _________________________________________ 
 !logging loghost 192.168.1.123
