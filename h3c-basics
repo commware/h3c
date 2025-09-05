@@ -106,14 +106,14 @@ display history
 !Son girilen komutlar listesini tutar
 !
 display cpu 
-repeat 3 count 5 delay 1 
+repeat 10 count 5 delay 1 
 !Son girilen komutu tekrarlar Örnek : Display CPU komutunu tekrarlıyor
 
 _________________________ _________________________ _______________________________________ 
 _________________________ SAAT MANUEL AYARLAMA ____________________________________________ 
 clock protocol none
 exit
-clock datetime 19:03 10/19/2022
+clock datetime 19:03 10/19/2025
 sys
 undo clock summer-time
 clock timezone UTC add 03:00:00
@@ -271,14 +271,17 @@ OR
 # alias wr save f   ! KISAYOL 
 # wr 
 __________________________UPGRADE SOFTWARE FROM CLI _________________________________
-!!!!!!!!!!"İPE uzantili dosyayı tftp server > flasha kopyalıyoruz.!!!!!!!!!!!!
+__________________________birinci adim_______________________________________________
+!!!!!!!!!!"İPE uzantili dosyayı tftp server > flasha kopyalıyoruz.-h3c image ipe uzantilidir.
 !!!
 <sys> tftp 2.2.2.2 get s6300.ipe
 _________________________ _________________________ _________________________________
-_________________________ ikinci adim dosyayi aktif etmek IPE file __________
+_________________________ -ikinci adim- dosyayi aktif etmek IPE file __________
 <Sysname> boot-loader file flash:/s6300.ipe slot 0 main
 This command will set the main startup software images. Continue? [Y/N]:Y
 Overwrite the existing files? [Y/N]:y
+-üçüncü-adim-reboot-switch 
+reboot force
 -----------------------------------------------------------------------------
 !display boot-loader
 !display version 
@@ -288,14 +291,12 @@ dir /all /all-filesystems
 __________________________UPGRADE SOFTWARE FROM BIN FILES _________________________________
 <H3C>boot-loader file boot flash:/s5570s_ei-cmw710-boot-r1115.bin system flash:/
 s5570s_ei-cmw710-system-r1115.bin all  main
-
 ______________________________________________________________________________________
 __________________________HOT PATCH YUKLEME___________________________________________
 !install activate patch flash:/S6861-CMW710-SYSTEM-R2612P06H11.bin slot 1
 !install activate patch flash:/S6861-CMW710-SYSTEM-R2612P06H11.bin slot 2
 !install commit
 !display install active
-
 _______________________#H3C LINK AGGREGATION CONFIGURATION___________________________
 !/PORT AGG GROUP 1 OLUSTURULMASI (Adım 1)
 
@@ -325,7 +326,6 @@ port link-aggregation group 1
 !display link-aggregation summary
 !display link-aggregation load-sharing mode
 !interface route-aggregation 1  !/Layer3  Link Aggregation Olusturulması
-
 _______________________________________________________________________________________
 _________________________ LOG-SERVER-LOG-GONDERME______________________________________
 logging enable
@@ -406,13 +406,13 @@ authentication lan-access radius-scheme radius1 local
 authorization lan-access radius-scheme radius1 local
 accounting lan-access radius-scheme radius1 local
 #PORTAL AUTH
-!authentication portal radius-scheme radius1
-!authorization portal radius-scheme radius1
-!accounting portal radius-scheme radius1
+!authentication portal radius-scheme radius1 local
+!authorization portal radius-scheme radius1 local
+!accounting portal radius-scheme radius1 local
 #SSH & TELNET
-!authentication login radius-scheme radius1
-!authorization login radius-scheme radius1
-!accounting login radius-scheme radius1
+!authentication login radius-scheme radius1 local
+!authorization login radius-scheme radius1 local
+!accounting login radius-scheme radius1 local
 __________________________DOT1X______________________________________________________
 #
 dot1x
@@ -448,16 +448,16 @@ tcp mss 1412
 nat outbound 2023 address-group 1
 nat server protocol tcp global 178.251.46.233 22 inside 192.168.5.19 22   /PORT YONLENDIRME
 nat server protocol udp global 178.251.46.233 500 inside 192.168.5.19 500
- !
+#
 display nat address-group
 display nat all
 display nat outbound
 display nat static
 display nat statistic
 display nat address-group
-!
+#
 __________________________LOOPBACK DETECTION ________________________________
-!Amacı: HUB takılmasıdurumunda Ağda oluşacak döngüleri engelleme!
+!Amacı: HUB takılması durumunda Ağda oluşacak döngüleri engelleme!
 shutdown-interval 300  !! Bu değer ile port  300 sanniye sonra açılacaktır.
 shutdown-interval 0    !! Bu deger sıfır yapılırsa port kapalı kalır
 ------------------------------
@@ -486,7 +486,7 @@ _________________________ SOURCE IP BASED DEBUG AÇMA___________________________
 <R-1>debugging ip icmp acl  2025
 _________________________ _________________________ _______________________________
 ! Örnek ARP VE ICMP  isteklerinin izlenebilmesi 
-_________________________BILGI VE HATA LOGLARINI INCELEMER________________________
+_________________________BILGI VE HATA LOGLARINI INCELEME________________________
 #display logbuffer revers
 #logfile klasöründeki dosyaların kayıt edilemesio/kunması
 logfile save  
@@ -502,6 +502,7 @@ display transceiver interface GigabitEthernet 1/1
 display transceiver itu-channel interface  1/1
 display transceiver manuinfo interface GigabitEthernet 1/1
 reset transceiver interface GigabitEthernet 1/0/1
+
 _________________________ COLLECT DEVICE  ALL LOGS/INFO  FROM DEVICE______________
 display diagnostic-information
 _________________________ HARDWARE-RESOURCES______________________________________
