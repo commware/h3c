@@ -72,7 +72,9 @@ sys
 snmp-agent
 undo snmp-agent sys-info version v2c    
 snmp-agent sys-info version v3
-snmp-agent group v3 h3cgroup read-view ViewDefault  !/SNMP GROUP OLUŞTURULMASI "h3cgroup" (user "h3cuser")
+!SNMP GROUP OLUŞTURULMASI "h3cgroup" (user "h3cuser")
+snmp-agent group v3 h3cgroup write-view ViewDefault
+snmp-agent group v3 h3cgroup read-view ViewDefault 
 snmp-agent mib-view included View-Default iso
 snmp-agent usm-user v3 h3cuser h3cgroup simple authentication-mode md5 H3CCom123 privacy-mode aes128 H3CCom321
 !SNMP LOCATION BILGILERI_________________________________________________________________
