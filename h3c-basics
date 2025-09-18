@@ -57,7 +57,7 @@ lldp global enable
 _________________________ _________________________ _________________________________ 
 _________________________ SNMP_________________________ _____________________________
 lldp global enable 
-snmp-agent sys-info version v2c       
+snmp-agent sys-info version v2c v1      
 snmp-agent sys-info contact  ANKARA-H3C
 snmp-agent sys-info location  ANKARA 
 snmp-agent packet max-size 10240
