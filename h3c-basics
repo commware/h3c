@@ -81,6 +81,7 @@ snmp-agent usm-user v3 h3cuser h3cgroup simple authentication-mode md5 H3CCom123
 snmp-agent sys-info contact H3C-TR 
 snmp-agent sys-info location ANKARA
 snmp-agent packet max-size 10240
+!simulate snmp-trap trap-node warmStart 
 
 _________________________ ORTAM DA NMS VARSA SNMP GEREKIR ________________________________
 _________________________ NETCONF                         ________________________________
