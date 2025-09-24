@@ -183,9 +183,6 @@ expired day 1
 _________________________ _________________________________________________________________
 interface  vlan-interface 5
 dhcp select interface  
-!Veya Relay server için >>>>>>>>>>
-interface  vlan-interface 5
-dhcp select server 
 ___________________________DHCP_DISPLAY_KOMUTLARI___________________________________________
 !dis dhcp  server pool
 !dis dhcp server ip-in-use
