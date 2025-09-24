@@ -177,8 +177,13 @@ network 192.168.5.0 24
 gateway-list 192.168.5.1
 address range 192.168.5.100 192.168.5.200
 dns-list 208.67.222.222 8.8.8.8
+domain name h3cba.com
+dhcp server forbidden-ip 192.168.5.1 
+expired day 1
 _________________________ _________________________________________________________________
 interface  vlan-interface 5
+dhcp select interface  
+!Veya Relay server için >
 dhcp select server 
 ___________________________DHCP_DISPLAY_KOMUTLARI___________________________________________
 !dis dhcp  server pool
