@@ -225,7 +225,11 @@ mkdir archive
 sys
 archive configuration location flash:/archive filename-prefix conf  !/SFTP SEÇENEĞi VEYA
 archive configuration interval 1440 / günde bir config yedeklemesi 
-archive configuration max 10
+archive configuration max 10 / 10 adet dosya yedeklenmesi maksimum 
+!
+veya !archive configuration location flash:/archive filename-prefix conf  interval  1440
+veya !archive configuration location flash:/archive filename-prefix conf  max 10 
+!
 exit 
 archive configuration
 Y
